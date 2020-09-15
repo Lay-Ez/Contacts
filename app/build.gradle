@@ -35,12 +35,14 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     def glide = "4.11.0"
     def koin_version = '2.1.6'
     def room_version = "2.2.5"
     def lifecycle_version = "2.2.0"
     def arch_version = "2.1.0"
     def material = "1.2.0"
+    def nav_version = "2.3.0"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -81,4 +83,7 @@ dependencies {
     implementation "androidx.room:room-guava:$room_version"
     testImplementation "androidx.room:room-testing:$room_version"
     implementation "com.google.android.material:material:$material"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 }
