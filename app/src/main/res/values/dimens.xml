@@ -2,4 +2,10 @@
 <resources>
     <dimen name="big_avatar_width">150dp</dimen>
     <dimen name="big_avatar_height">150dp</dimen>
+
+    <dimen name="small_avatar_width">60dp</dimen>
+    <dimen name="small_avatar_height">60dp</dimen>
+
+    <dimen name="list_first_name_text_size">24sp</dimen>
+    <dimen name="list_last_name_text_size">24sp</dimen>
 </resources>
