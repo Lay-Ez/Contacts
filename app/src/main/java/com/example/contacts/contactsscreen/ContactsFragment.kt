@@ -5,9 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contacts.R
 import com.example.contacts.base.model.Contact
+import com.example.contacts.base.setAdapterAndCleanupOnDetachFromWindow
+import com.example.contacts.base.setData
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,14 +36,19 @@ class ContactsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fabNewContact.setOnClickListener { openNewContact() }
+        fabNewContact.setOnClickListener { openNewContactWindow() }
+        recyclerViewContacts.layoutManager = LinearLayoutManager(requireContext())
+        recyclerViewContacts.setAdapterAndCleanupOnDetachFromWindow(adapter)
+        viewModel.contacts.observe(viewLifecycleOwner, Observer {
+            displayContacts(it)
+        })
     }
 
     private fun displayContacts(contacts: List<Contact>) {
-
+        adapter.setData(contacts)
     }
 
-    private fun openNewContact() {
+    private fun openNewContactWindow() {
         findNavController().navigate(R.id.action_contactsFragment_to_newContactFragment)
     }
 }
