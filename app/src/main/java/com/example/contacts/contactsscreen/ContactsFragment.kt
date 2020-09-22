@@ -49,6 +49,6 @@ class ContactsFragment : Fragment() {
     }
 
     private fun openNewContactWindow() {
-        findNavController().navigate(R.id.action_contactsFragment_to_newContactFragment)
+        findNavController().navigate(R.id.action_contactsFragment_to_editContactFragment)
     }
 }

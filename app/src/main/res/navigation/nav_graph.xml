@@ -13,18 +13,10 @@
         <action
             android:id="@+id/action_contactsFragment_to_editContactFragment"
             app:destination="@id/editContactFragment" />
-        <action
-            android:id="@+id/action_contactsFragment_to_newContactFragment"
-            app:destination="@id/newContactFragment" />
     </fragment>
     <fragment
         android:id="@+id/editContactFragment"
         android:name="com.example.contacts.editcontactscreen.EditContactFragment"
         android:label="fragment_edit_contact"
         tools:layout="@layout/fragment_edit_contact" />
-    <fragment
-        android:id="@+id/newContactFragment"
-        android:name="com.example.contacts.newcontactscreen.NewContactFragment"
-        android:label="fragment_new_contact"
-        tools:layout="@layout/fragment_new_contact" />
 </navigation>
