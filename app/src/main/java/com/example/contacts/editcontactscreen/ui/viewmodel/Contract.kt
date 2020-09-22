@@ -1,4 +1,4 @@
-package com.example.contacts.editcontactscreen.ui
+package com.example.contacts.editcontactscreen.ui.viewmodel
 
 import com.example.contacts.base.Event
 import com.example.contacts.base.model.Contact
@@ -17,11 +17,15 @@ sealed class UiEvent : Event {
 }
 
 sealed class DataEvent : Event {
-    data class LoadContact(val contactId: Int)
+    data class LoadContact(val contactId: Int) : DataEvent()
+    data class ErrorLoadingContact(val error: Throwable) : DataEvent()
+    data class ErrorSavingContact(val error: Throwable) : DataEvent()
+    object ContactSaved : DataEvent()
 }
 
 enum class Status {
     CONTENT,
     ERROR,
-    PROCESSING
+    PROCESSING,
+    FINISHED
 }

@@ -1,10 +1,15 @@
-package com.example.contacts.editcontactscreen.ui
+package com.example.contacts.editcontactscreen.ui.viewmodel
 
+import android.util.Log
 import com.example.contacts.base.BaseViewModel
 import com.example.contacts.base.Event
 import com.example.contacts.base.model.Contact
 
 abstract class ContactViewModel() : BaseViewModel<ViewState>() {
+
+    companion object {
+        private const val TAG = "ContactViewModel"
+    }
 
     override fun initialViewState(): ViewState =
         ViewState(
@@ -21,15 +26,13 @@ abstract class ContactViewModel() : BaseViewModel<ViewState>() {
             is UiEvent.OnSaveClicked -> {
                 saveContact(viewState.value?.contact)
                 return previousState.copy(
-                    status = Status.PROCESSING,
-                    contact = previousState.contact
+                    status = Status.PROCESSING
                 )
             }
             is UiEvent.OnDeleteClicked -> {
                 deleteContact(viewState.value?.contact)
                 return previousState.copy(
-                    status = Status.PROCESSING,
-                    contact = previousState.contact
+                    status = Status.PROCESSING
                 )
             }
             is UiEvent.OnImageUriUpdated -> {
@@ -49,6 +52,17 @@ abstract class ContactViewModel() : BaseViewModel<ViewState>() {
                     status = Status.CONTENT,
                     contact = previousState.contact.copy(lastName = event.lastName)
                 )
+            }
+            is DataEvent.ContactSaved -> {
+                return previousState.copy(status = Status.FINISHED)
+            }
+            is DataEvent.ErrorSavingContact -> {
+                Log.d(TAG, "reduce: error saving contact, msg: ${event.error.message}")
+                return previousState.copy(status = Status.ERROR)
+            }
+            is DataEvent.ErrorLoadingContact -> {
+                Log.d(TAG, "reduce: error loading contact, msg: ${event.error.message}")
+                return previousState.copy(status = Status.ERROR)
             }
         }
         return null
