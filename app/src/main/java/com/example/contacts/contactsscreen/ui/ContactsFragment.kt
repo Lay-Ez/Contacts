@@ -1,4 +1,4 @@
-package com.example.contacts.contactsscreen
+package com.example.contacts.contactsscreen.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,7 +22,8 @@ class ContactsFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = ContactsFragment()
+        fun newInstance() =
+            ContactsFragment()
     }
 
     private val viewModel: ContactsViewModel by viewModel()

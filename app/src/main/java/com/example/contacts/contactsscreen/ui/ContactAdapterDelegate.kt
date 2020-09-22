@@ -1,4 +1,4 @@
-package com.example.contacts.contactsscreen
+package com.example.contacts.contactsscreen.ui
 
 import com.bumptech.glide.Glide
 import com.example.contacts.R

@@ -1,4 +1,4 @@
-package com.example.contacts.contactsscreen
+package com.example.contacts.contactsscreen.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
