@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.contacts.R
 import com.example.contacts.editcontactscreen.ui.NewContactViewModel
 import com.example.contacts.editcontactscreen.ui.viewmodel.*
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_edit_contact.*
 import org.koin.android.ext.android.get
 
@@ -33,11 +34,19 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
     }
 
     private fun displayViewState(viewState: ViewState) {
-        if (viewState.status == Status.CONTENT) {
-            val contact = viewState.contact
-            editTextFirstName.setText(contact.firstName)
-            editTextLastName.setText(contact.lastName)
-            Glide.with(this).load(contact.imageUri).into(imageViewAvatar)
+        when (viewState.status) {
+            Status.CONTENT -> {
+                val contact = viewState.contact
+                editTextFirstName.setText(contact.firstName)
+                editTextLastName.setText(contact.lastName)
+                Glide.with(this).load(contact.imageUri).into(imageViewAvatar)
+            }
+            Status.FINISHED -> {
+                requireActivity().onBackPressed()
+            }
+            Status.ERROR -> {
+                Snackbar.make(toolbar, R.string.generic_error_msg, Snackbar.LENGTH_LONG).show()
+            }
         }
     }
 

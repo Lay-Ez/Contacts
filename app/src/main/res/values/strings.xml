@@ -12,4 +12,5 @@
     <string name="edit_contact_mnu_item_delete">Delete</string>
 
     <string name="image_picker_msg">Choose avatar</string>
+    <string name="generic_error_msg">Oops, something went wrong</string>
 </resources>
