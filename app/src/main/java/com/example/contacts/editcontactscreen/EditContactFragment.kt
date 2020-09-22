@@ -84,6 +84,12 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PICK_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             data?.data?.let { uri ->
+                viewModel.processUiEvent(
+                    UiEvent.OnNameUpdated(
+                        editTextFirstName.text.toString(),
+                        editTextLastName.text.toString()
+                    )
+                )
                 viewModel.processUiEvent(UiEvent.OnImageUriUpdated(uri.toString()))
             }
         }

@@ -27,7 +27,9 @@ class ContactsFragment : Fragment() {
     }
 
     private val viewModel: ContactsViewModel by viewModel()
-    private val adapter = ListDelegationAdapter(contactAdapterDelegate())
+    private val adapter = ListDelegationAdapter(contactAdapterDelegate {
+        openEditContactWindow(it.id)
+    })
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

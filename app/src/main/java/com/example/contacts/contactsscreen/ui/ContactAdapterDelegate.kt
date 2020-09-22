@@ -8,7 +8,7 @@ import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import kotlinx.android.synthetic.main.contact_list_item.*
 
-fun contactAdapterDelegate(): AdapterDelegate<List<Item>> =
+fun contactAdapterDelegate(onClick: (Contact) -> Unit): AdapterDelegate<List<Item>> =
     adapterDelegateLayoutContainer<Contact, Item>(
         R.layout.contact_list_item
     ) {
@@ -18,5 +18,8 @@ fun contactAdapterDelegate(): AdapterDelegate<List<Item>> =
                 .into(imageViewAvatar)
             textViewFirstName.text = item.firstName
             textViewLastName.text = item.lastName
+            btnEditContact.setOnClickListener {
+                onClick(item)
+            }
         }
     }
