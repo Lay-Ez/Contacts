@@ -13,7 +13,7 @@ class NewContactViewModel(private val contactsDao: ContactsDao) : ContactViewMod
     @SuppressLint("CheckResult")
     override fun saveContact(contact: Contact?) {
         if (contact == null) {
-            processDataEvent(DataEvent.ErrorSavingContact(IllegalStateException("Cannot save null contact")))
+            processDataEvent(DataEvent.ErrorUpdatingContact(IllegalStateException("Cannot save null contact")))
         } else {
             contactsDao.insertContact(contact)
                 .subscribeOn(Schedulers.io())
@@ -21,7 +21,7 @@ class NewContactViewModel(private val contactsDao: ContactsDao) : ContactViewMod
                 .subscribe({
                     processDataEvent(DataEvent.ContactSaved)
                 }, {
-                    processDataEvent(DataEvent.ErrorSavingContact(it))
+                    processDataEvent(DataEvent.ErrorUpdatingContact(it))
                 })
         }
     }

@@ -41,22 +41,19 @@ abstract class ContactViewModel() : BaseViewModel<ViewState>() {
                     contact = previousState.contact.copy(imageUri = event.imageUri)
                 )
             }
-            is UiEvent.OnFirstNameUpdated -> {
+            is UiEvent.OnNameUpdated -> {
                 return previousState.copy(
                     status = Status.CONTENT,
-                    contact = previousState.contact.copy(firstName = event.firstName)
-                )
-            }
-            is UiEvent.OnLastNameUpdated -> {
-                return previousState.copy(
-                    status = Status.CONTENT,
-                    contact = previousState.contact.copy(lastName = event.lastName)
+                    contact = previousState.contact.copy(
+                        firstName = event.firstName,
+                        lastName = event.lastName
+                    )
                 )
             }
             is DataEvent.ContactSaved -> {
                 return previousState.copy(status = Status.FINISHED)
             }
-            is DataEvent.ErrorSavingContact -> {
+            is DataEvent.ErrorUpdatingContact -> {
                 Log.d(TAG, "reduce: error saving contact, msg: ${event.error.message}")
                 return previousState.copy(status = Status.ERROR)
             }

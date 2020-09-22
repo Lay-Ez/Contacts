@@ -12,7 +12,7 @@ interface ContactsDao {
     fun getAllContacts(): LiveData<List<Contact>>
 
     @Query("SELECT * FROM contacts WHERE id=:id")
-    fun getContactById(id: String): Single<Contact>
+    fun getContactById(id: Int): Single<Contact>
 
     @Insert
     fun insertContact(contact: Contact): Single<Unit>

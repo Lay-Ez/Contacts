@@ -11,15 +11,14 @@ data class ViewState(
 sealed class UiEvent : Event {
     object OnSaveClicked : UiEvent()
     object OnDeleteClicked : UiEvent()
-    data class OnFirstNameUpdated(val firstName: String) : UiEvent()
-    data class OnLastNameUpdated(val lastName: String) : UiEvent()
+    data class OnNameUpdated(val firstName: String, val lastName: String) : UiEvent()
     data class OnImageUriUpdated(val imageUri: String) : UiEvent()
 }
 
 sealed class DataEvent : Event {
     data class LoadContact(val contactId: Int) : DataEvent()
     data class ErrorLoadingContact(val error: Throwable) : DataEvent()
-    data class ErrorSavingContact(val error: Throwable) : DataEvent()
+    data class ErrorUpdatingContact(val error: Throwable) : DataEvent()
     object ContactSaved : DataEvent()
 }
 
