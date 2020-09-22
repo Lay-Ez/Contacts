@@ -18,5 +18,10 @@
         android:id="@+id/editContactFragment"
         android:name="com.example.contacts.editcontactscreen.EditContactFragment"
         android:label="fragment_edit_contact"
-        tools:layout="@layout/fragment_edit_contact" />
+        tools:layout="@layout/fragment_edit_contact">
+        <argument
+            android:name="contact_id"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
 </navigation>

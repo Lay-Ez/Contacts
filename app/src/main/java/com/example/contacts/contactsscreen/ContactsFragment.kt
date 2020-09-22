@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -50,5 +51,10 @@ class ContactsFragment : Fragment() {
 
     private fun openNewContactWindow() {
         findNavController().navigate(R.id.action_contactsFragment_to_editContactFragment)
+    }
+
+    private fun openEditContactWindow(contactId: Int) {
+        val bundle = bundleOf("contact_id" to contactId)
+        findNavController().navigate(R.id.action_contactsFragment_to_editContactFragment, bundle)
     }
 }

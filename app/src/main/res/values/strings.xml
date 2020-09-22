@@ -10,4 +10,5 @@
     <!--Edit contact-->
     <string name="edit_contact_toolbar_name">Edit contact</string>
     <string name="edit_contact_mnu_item_delete">Delete</string>
+
 </resources>
