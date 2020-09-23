@@ -9,8 +9,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.contacts.R
-import com.example.contacts.editcontactscreen.ui.NewContactViewModel
-import com.example.contacts.editcontactscreen.ui.viewmodel.*
+import com.example.contacts.editcontactscreen.ui.Status
+import com.example.contacts.editcontactscreen.ui.UiEvent
+import com.example.contacts.editcontactscreen.ui.ViewState
+import com.example.contacts.editcontactscreen.ui.viewmodel.NewContactViewModel
+import com.example.contacts.editcontactscreen.ui.viewmodel.base.ContactViewModel
+import com.example.contacts.editcontactscreen.ui.viewmodel.base.ContactViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_edit_contact.*
 import org.koin.android.ext.android.get
@@ -99,7 +103,11 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
         if (contactId == null) {
             return
         }
-        val factory = ContactViewModelFactory(contactId, get())
+        val factory =
+            ContactViewModelFactory(
+                contactId,
+                get()
+            )
         viewModel = ViewModelProvider(this, factory).get(NewContactViewModel::class.java)
         if (contactId == NEW_CONTACT_ID) {
             setupNewContactUi()

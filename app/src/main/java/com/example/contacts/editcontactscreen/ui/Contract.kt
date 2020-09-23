@@ -1,4 +1,4 @@
-package com.example.contacts.editcontactscreen.ui.viewmodel
+package com.example.contacts.editcontactscreen.ui
 
 import com.example.contacts.base.Event
 import com.example.contacts.base.model.Contact

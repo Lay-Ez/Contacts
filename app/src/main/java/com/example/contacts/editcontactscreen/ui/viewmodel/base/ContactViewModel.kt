@@ -1,9 +1,13 @@
-package com.example.contacts.editcontactscreen.ui.viewmodel
+package com.example.contacts.editcontactscreen.ui.viewmodel.base
 
 import android.util.Log
 import com.example.contacts.base.BaseViewModel
 import com.example.contacts.base.Event
 import com.example.contacts.base.model.Contact
+import com.example.contacts.editcontactscreen.ui.DataEvent
+import com.example.contacts.editcontactscreen.ui.Status
+import com.example.contacts.editcontactscreen.ui.UiEvent
+import com.example.contacts.editcontactscreen.ui.ViewState
 
 abstract class ContactViewModel() : BaseViewModel<ViewState>() {
 

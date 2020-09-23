@@ -1,12 +1,12 @@
-package com.example.contacts.editcontactscreen.ui
+package com.example.contacts.editcontactscreen.ui.viewmodel
 
 import android.annotation.SuppressLint
 import com.example.contacts.base.model.Contact
 import com.example.contacts.base.room.ContactsDao
-import com.example.contacts.editcontactscreen.ui.viewmodel.ContactViewModel
-import com.example.contacts.editcontactscreen.ui.viewmodel.DataEvent
-import com.example.contacts.editcontactscreen.ui.viewmodel.Status
-import com.example.contacts.editcontactscreen.ui.viewmodel.ViewState
+import com.example.contacts.editcontactscreen.ui.DataEvent
+import com.example.contacts.editcontactscreen.ui.Status
+import com.example.contacts.editcontactscreen.ui.ViewState
+import com.example.contacts.editcontactscreen.ui.viewmodel.base.ContactViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -18,16 +18,28 @@ class EditContactViewModel(private val contactsDao: ContactsDao, contactId: Int)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ contact ->
-                viewState.value = ViewState(Status.CONTENT, contact)
+                viewState.value =
+                    ViewState(
+                        Status.CONTENT,
+                        contact
+                    )
             }, {
-                processDataEvent(DataEvent.ErrorLoadingContact(it))
+                processDataEvent(
+                    DataEvent.ErrorLoadingContact(
+                        it
+                    )
+                )
             })
     }
 
     @SuppressLint("CheckResult")
     override fun saveContact(contact: Contact?) {
         if (contact == null) {
-            processDataEvent(DataEvent.ErrorUpdatingContact(IllegalStateException("Cannot update null contact")))
+            processDataEvent(
+                DataEvent.ErrorUpdatingContact(
+                    IllegalStateException("Cannot update null contact")
+                )
+            )
         } else {
             contactsDao.updateContact(contact)
                 .subscribeOn(Schedulers.io())
@@ -35,7 +47,11 @@ class EditContactViewModel(private val contactsDao: ContactsDao, contactId: Int)
                 .subscribe({
                     processDataEvent(DataEvent.ContactSaved)
                 }, {
-                    processDataEvent(DataEvent.ErrorUpdatingContact(it))
+                    processDataEvent(
+                        DataEvent.ErrorUpdatingContact(
+                            it
+                        )
+                    )
                 })
         }
     }
@@ -43,7 +59,11 @@ class EditContactViewModel(private val contactsDao: ContactsDao, contactId: Int)
     @SuppressLint("CheckResult")
     override fun deleteContact(contact: Contact?) {
         if (contact == null) {
-            processDataEvent(DataEvent.ErrorUpdatingContact(IllegalStateException("Cannot delete null contact")))
+            processDataEvent(
+                DataEvent.ErrorUpdatingContact(
+                    IllegalStateException("Cannot delete null contact")
+                )
+            )
         } else {
             contactsDao.deleteContact(contact)
                 .subscribeOn(Schedulers.io())
@@ -51,7 +71,11 @@ class EditContactViewModel(private val contactsDao: ContactsDao, contactId: Int)
                 .subscribe({
                     processDataEvent(DataEvent.ContactSaved)
                 }, {
-                    processDataEvent(DataEvent.ErrorUpdatingContact(it))
+                    processDataEvent(
+                        DataEvent.ErrorUpdatingContact(
+                            it
+                        )
+                    )
                 })
         }
     }

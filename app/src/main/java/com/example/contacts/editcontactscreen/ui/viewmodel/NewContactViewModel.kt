@@ -1,10 +1,10 @@
-package com.example.contacts.editcontactscreen.ui
+package com.example.contacts.editcontactscreen.ui.viewmodel
 
 import android.annotation.SuppressLint
 import com.example.contacts.base.model.Contact
 import com.example.contacts.base.room.ContactsDao
-import com.example.contacts.editcontactscreen.ui.viewmodel.ContactViewModel
-import com.example.contacts.editcontactscreen.ui.viewmodel.DataEvent
+import com.example.contacts.editcontactscreen.ui.DataEvent
+import com.example.contacts.editcontactscreen.ui.viewmodel.base.ContactViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -13,7 +13,11 @@ class NewContactViewModel(private val contactsDao: ContactsDao) : ContactViewMod
     @SuppressLint("CheckResult")
     override fun saveContact(contact: Contact?) {
         if (contact == null) {
-            processDataEvent(DataEvent.ErrorUpdatingContact(IllegalStateException("Cannot save null contact")))
+            processDataEvent(
+                DataEvent.ErrorUpdatingContact(
+                    IllegalStateException("Cannot save null contact")
+                )
+            )
         } else {
             contactsDao.insertContact(contact)
                 .subscribeOn(Schedulers.io())
@@ -21,7 +25,11 @@ class NewContactViewModel(private val contactsDao: ContactsDao) : ContactViewMod
                 .subscribe({
                     processDataEvent(DataEvent.ContactSaved)
                 }, {
-                    processDataEvent(DataEvent.ErrorUpdatingContact(it))
+                    processDataEvent(
+                        DataEvent.ErrorUpdatingContact(
+                            it
+                        )
+                    )
                 })
         }
     }
