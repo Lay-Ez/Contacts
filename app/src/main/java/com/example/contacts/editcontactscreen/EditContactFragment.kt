@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.contacts.R
 import com.example.contacts.editcontactscreen.ui.Status
@@ -29,10 +30,11 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
     }
 
     private lateinit var viewModel: ContactViewModel
+    private val args: EditContactFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupFragment(arguments?.getInt("contact_id"))
+        setupFragment(args.contactId)
         setupListeners()
         viewModel.viewState.observe(viewLifecycleOwner, Observer { displayViewState(it) })
     }
@@ -99,10 +101,7 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
         }
     }
 
-    private fun setupFragment(contactId: Int?) {
-        if (contactId == null) {
-            return
-        }
+    private fun setupFragment(contactId: Int) {
         val factory =
             ContactViewModelFactory(
                 contactId,

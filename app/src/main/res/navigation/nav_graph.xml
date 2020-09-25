@@ -11,7 +11,7 @@
         android:label="fragment_contacts"
         tools:layout="@layout/fragment_contacts">
         <action
-            android:id="@+id/action_contactsFragment_to_editContactFragment"
+            android:id="@+id/action_to_editContact"
             app:destination="@id/editContactFragment" />
     </fragment>
     <fragment
