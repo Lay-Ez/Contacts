@@ -9,7 +9,7 @@ import com.example.contacts.editcontactscreen.ui.Status
 import com.example.contacts.editcontactscreen.ui.UiEvent
 import com.example.contacts.editcontactscreen.ui.ViewState
 
-abstract class ContactViewModel() : BaseViewModel<ViewState>() {
+abstract class ContactViewModel : BaseViewModel<ViewState>() {
 
     companion object {
         private const val TAG = "ContactViewModel"

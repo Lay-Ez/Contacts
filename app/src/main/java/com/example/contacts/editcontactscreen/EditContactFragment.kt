@@ -26,7 +26,6 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
     companion object {
         const val NEW_CONTACT_ID = -1
         const val PICK_IMAGE_REQUEST_CODE = 42
-        private const val TAG = "EditContactFragment"
     }
 
     private lateinit var viewModel: ContactViewModel
