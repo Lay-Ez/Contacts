@@ -28,16 +28,30 @@ abstract class ContactViewModel() : BaseViewModel<ViewState>() {
     override fun reduce(event: Event, previousState: ViewState): ViewState? {
         when (event) {
             is UiEvent.OnSaveClicked -> {
-                saveContact(viewState.value?.contact)
-                return previousState.copy(
-                    status = Status.PROCESSING
-                )
+                val contact = viewState.value?.contact
+                return if (contact != null) {
+                    saveContact(contact)
+                    previousState.copy(
+                        status = Status.PROCESSING
+                    )
+                } else {
+                    previousState.copy(
+                        status = Status.ERROR
+                    )
+                }
             }
             is UiEvent.OnDeleteClicked -> {
-                deleteContact(viewState.value?.contact)
-                return previousState.copy(
-                    status = Status.PROCESSING
-                )
+                val contact = viewState.value?.contact
+                return if (contact != null) {
+                    deleteContact(contact)
+                    previousState.copy(
+                        status = Status.PROCESSING
+                    )
+                } else {
+                    previousState.copy(
+                        status = Status.ERROR
+                    )
+                }
             }
             is UiEvent.OnImageUriUpdated -> {
                 return previousState.copy(
@@ -69,7 +83,7 @@ abstract class ContactViewModel() : BaseViewModel<ViewState>() {
         return null
     }
 
-    abstract fun saveContact(contact: Contact?)
+    abstract fun saveContact(contact: Contact)
 
-    open fun deleteContact(contact: Contact?) {}
+    open fun deleteContact(contact: Contact) {}
 }

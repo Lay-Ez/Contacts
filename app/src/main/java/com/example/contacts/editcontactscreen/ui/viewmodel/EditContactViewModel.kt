@@ -33,50 +33,34 @@ class EditContactViewModel(private val contactsDao: ContactsDao, contactId: Int)
     }
 
     @SuppressLint("CheckResult")
-    override fun saveContact(contact: Contact?) {
-        if (contact == null) {
-            processDataEvent(
-                DataEvent.ErrorUpdatingContact(
-                    IllegalStateException("Cannot update null contact")
-                )
-            )
-        } else {
-            contactsDao.updateContact(contact)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    processDataEvent(DataEvent.ContactSaved)
-                }, {
-                    processDataEvent(
-                        DataEvent.ErrorUpdatingContact(
-                            it
-                        )
+    override fun saveContact(contact: Contact) {
+        contactsDao.updateContact(contact)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                processDataEvent(DataEvent.ContactSaved)
+            }, {
+                processDataEvent(
+                    DataEvent.ErrorUpdatingContact(
+                        it
                     )
-                })
-        }
+                )
+            })
     }
 
     @SuppressLint("CheckResult")
-    override fun deleteContact(contact: Contact?) {
-        if (contact == null) {
-            processDataEvent(
-                DataEvent.ErrorUpdatingContact(
-                    IllegalStateException("Cannot delete null contact")
-                )
-            )
-        } else {
-            contactsDao.deleteContact(contact)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    processDataEvent(DataEvent.ContactSaved)
-                }, {
-                    processDataEvent(
-                        DataEvent.ErrorUpdatingContact(
-                            it
-                        )
+    override fun deleteContact(contact: Contact) {
+        contactsDao.deleteContact(contact)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                processDataEvent(DataEvent.ContactSaved)
+            }, {
+                processDataEvent(
+                    DataEvent.ErrorUpdatingContact(
+                        it
                     )
-                })
-        }
+                )
+            })
     }
 }

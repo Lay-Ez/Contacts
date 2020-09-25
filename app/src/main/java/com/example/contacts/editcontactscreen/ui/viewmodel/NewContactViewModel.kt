@@ -11,26 +11,18 @@ import io.reactivex.schedulers.Schedulers
 class NewContactViewModel(private val contactsDao: ContactsDao) : ContactViewModel() {
 
     @SuppressLint("CheckResult")
-    override fun saveContact(contact: Contact?) {
-        if (contact == null) {
-            processDataEvent(
-                DataEvent.ErrorUpdatingContact(
-                    IllegalStateException("Cannot save null contact")
-                )
-            )
-        } else {
-            contactsDao.insertContact(contact)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    processDataEvent(DataEvent.ContactSaved)
-                }, {
-                    processDataEvent(
-                        DataEvent.ErrorUpdatingContact(
-                            it
-                        )
+    override fun saveContact(contact: Contact) {
+        contactsDao.insertContact(contact)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                processDataEvent(DataEvent.ContactSaved)
+            }, {
+                processDataEvent(
+                    DataEvent.ErrorUpdatingContact(
+                        it
                     )
-                })
-        }
+                )
+            })
     }
 }
