@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Contacts</string>
+
+    <!--New contact-->
+    <string name="new_contact_toolbar_title">New contact</string>
+    <string name="new_contact_first_name_hint">First name</string>
+    <string name="new_contact_last_name_hin">Last name</string>
+    <string name="new_contact_mnu_item_save">Save</string>
+
+    <!--Edit contact-->
+    <string name="edit_contact_toolbar_name">Edit contact</string>
+    <string name="edit_contact_mnu_item_delete">Delete</string>
+
+    <string name="image_picker_msg">Choose avatar</string>
+    <string name="generic_error_msg">Oops, something went wrong</string>
 </resources>
