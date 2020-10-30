@@ -1,9 +1,15 @@
 package com.example.contacts.editcontactscreen
 
+import android.Manifest
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -26,6 +32,8 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
     companion object {
         const val NEW_CONTACT_ID = -1
         const val PICK_IMAGE_REQUEST_CODE = 42
+        const val TAKE_PICTURE_REQUEST_CODE = 43
+        const val WRITE_STORAGE_REQUEST_CODE = 44
     }
 
     private lateinit var viewModel: ContactViewModel
@@ -73,6 +81,7 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
         }
         toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
         btnPickImage.setOnClickListener { onPickImageClicked() }
+        btnTakePic.setOnClickListener { onTakePictureClicked() }
     }
 
     private fun onPickImageClicked() {
@@ -86,6 +95,38 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
         )
     }
 
+    private fun onTakePictureClicked() {
+        if (!requireActivity().packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+            Snackbar.make(toolbar, R.string.error_no_camera_detected_msg, Snackbar.LENGTH_LONG)
+                .show()
+        } else {
+            try {
+                if (storagePermissionGranted()) {
+                    openCamera()
+                } else {
+                    requestPermissions(
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        WRITE_STORAGE_REQUEST_CODE
+                    )
+                }
+            } catch (e: ActivityNotFoundException) {
+                Snackbar.make(toolbar, R.string.generic_error_msg, Snackbar.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun openCamera() {
+        val takePicIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(takePicIntent, TAKE_PICTURE_REQUEST_CODE)
+    }
+
+    private fun storagePermissionGranted(): Boolean =
+        (checkSelfPermission(
+            requireContext(),
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED)
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PICK_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             data?.data?.let { uri ->
@@ -97,6 +138,29 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
                 )
                 viewModel.processUiEvent(UiEvent.OnImageUriUpdated(uri.toString()))
             }
+        } else if (requestCode == TAKE_PICTURE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            viewModel.processUiEvent(UiEvent.SaveImage(imageBitmap))
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            WRITE_STORAGE_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openCamera()
+                } else {
+                    Snackbar.make(
+                        toolbar,
+                        R.string.external_storage_permission_denied,
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+            }
         }
     }
 
@@ -104,6 +168,7 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
         val factory =
             ContactViewModelFactory(
                 contactId,
+                get(),
                 get()
             )
         viewModel = ViewModelProvider(this, factory).get(NewContactViewModel::class.java)

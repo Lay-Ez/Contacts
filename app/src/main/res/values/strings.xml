@@ -13,4 +13,10 @@
 
     <string name="image_picker_msg">Choose avatar</string>
     <string name="generic_error_msg">Oops, something went wrong</string>
+
+    <string name="error_no_camera_detected_msg">Could not detect camera</string>
+    <string name="external_storage_permission_denied">External storage access denied</string>
+
+    <!-- Contact list-->
+    <string name="contact_list_toolbar_name">Contacts</string>
 </resources>

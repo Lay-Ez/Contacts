@@ -1,6 +1,7 @@
 package com.example.contacts.editcontactscreen.ui.viewmodel
 
 import android.annotation.SuppressLint
+import com.example.contacts.base.data.ImageSaver
 import com.example.contacts.base.model.Contact
 import com.example.contacts.base.room.ContactsDao
 import com.example.contacts.editcontactscreen.ui.DataEvent
@@ -10,8 +11,12 @@ import com.example.contacts.editcontactscreen.ui.viewmodel.base.ContactViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class EditContactViewModel(private val contactsDao: ContactsDao, contactId: Int) :
-    ContactViewModel() {
+class EditContactViewModel(
+    private val contactsDao: ContactsDao,
+    contactId: Int,
+    imageSaver: ImageSaver
+) :
+    ContactViewModel(imageSaver) {
 
     init {
         contactsDao.getContactById(contactId)

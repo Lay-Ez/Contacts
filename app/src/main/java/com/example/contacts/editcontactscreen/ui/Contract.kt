@@ -1,5 +1,6 @@
 package com.example.contacts.editcontactscreen.ui
 
+import android.graphics.Bitmap
 import com.example.contacts.base.Event
 import com.example.contacts.base.model.Contact
 
@@ -13,6 +14,7 @@ sealed class UiEvent : Event {
     object OnDeleteClicked : UiEvent()
     data class OnNameUpdated(val firstName: String, val lastName: String) : UiEvent()
     data class OnImageUriUpdated(val imageUri: String) : UiEvent()
+    data class SaveImage(val image: Bitmap) : UiEvent()
 }
 
 sealed class DataEvent : Event {
